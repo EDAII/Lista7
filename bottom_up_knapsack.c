@@ -10,22 +10,27 @@ int max(int a, int b) { return (a > b)? a : b; }
 
 int knapsack(int capacity, int weight[], int value[], int position){
     int i, j, w;
-    for(i=0 ; i<TAM+1; i++){
-        for(j=0; j<CAP+1; j++){
-            printf("%d ", memo[i][j]);
-        }
-        printf("\n");
-    }
+    int x, z;
     for (i = 0; i <= position; i++)
    {
        for (w = 0; w <= capacity; w++)
        {
-           if (i==0 || w==0)
+           if (i==0 || w==0){
                memo[i][w] = 0;
-           else if (weight[i-1] <= w)
+           }
+           else if (weight[i-1] <= w){
                  memo[i][w] = max(value[i-1] + memo[i-1][w-weight[i-1]],  memo[i-1][w]);
-           else
+           }
+           else{
                  memo[i][w] = memo[i-1][w];
+           }
+            for(x=0 ; x<TAM+1; x++){
+                for(z=0; z<CAP+1; z++){
+                    printf("%d ", memo[x][z]);
+                }
+                printf("\n");
+            }
+            printf("=====================\n");
        }
    }
  
