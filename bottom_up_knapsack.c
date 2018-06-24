@@ -9,33 +9,27 @@ int memo[TAM][CAP+1] = {0};
 int max(int a, int b) { return (a > b)? a : b; }
 
 int knapsack(int capacity, int weight[], int value[], int position){
-    int i,j;
+    int i, j, w;
     for(i=0 ; i<TAM+1; i++){
         for(j=0; j<CAP+1; j++){
             printf("%d ", memo[i][j]);
         }
         printf("\n");
     }
-    printf("==============================\n");
-    if(memo[position][capacity] != 0){
-        return memo[position][capacity];
-    }
-    if (position == 0 || capacity == 0){
-        return 0;
-    }
-
-    if (weight[position-1] > capacity){
-        int lol = knapsack(capacity, weight, value, position-1);
-        memo[position][capacity] = lol;
-        return lol;
-    }
-
-    else {
-        int lol = max( value[position-1] + knapsack(capacity - weight[position-1], weight, value, position-1),
-        knapsack(capacity, weight, value, position-1));
-        memo[position][capacity] = lol;
-        return lol;
-    }
+    for (i = 0; i <= position; i++)
+   {
+       for (w = 0; w <= capacity; w++)
+       {
+           if (i==0 || w==0)
+               memo[i][w] = 0;
+           else if (weight[i-1] <= w)
+                 memo[i][w] = max(value[i-1] + memo[i-1][w-weight[i-1]],  memo[i-1][w]);
+           else
+                 memo[i][w] = memo[i-1][w];
+       }
+   }
+ 
+   return memo[position][capacity];
 }
 
 int main(){
